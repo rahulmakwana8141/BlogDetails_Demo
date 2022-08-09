@@ -1,0 +1,66 @@
+﻿@model IEnumerable<BlogDetailsDAL.tblBlogDetail>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/Content/DataTableCSS")
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "BlogInsertUpate")
+</p>
+<table class="table table-bordered" id="tblBlogDetails">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BlogId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    <a href="/Blog/BlogInsertUpate/@item.BlogId"><input type="button" class="btn btn-primary" value="Edit" /></a>
+
+                    <span onclick="return confirm('Are you sure to delete this @item.Title  ?')">
+                        <a href="@Url.Action("BlogDelete", "Blog", new { id = item.BlogId })">
+                            <input type="button" class="btn btn-danger" value="Delete" />
+                        </a>
+                    </span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Scripts.Render("~/bundles/DatatableJS")
+<script>
+    $(document).ready(function () {
+        $('#tblBlogDetails').DataTable();
+    });
+</script>
